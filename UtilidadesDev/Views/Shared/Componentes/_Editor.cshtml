@@ -1,0 +1,12 @@
+﻿@model string
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div id="editor" style="height: 300px">
+                @Html.Raw(Model)
+            </div>
+        </div>
+    </div>
+}

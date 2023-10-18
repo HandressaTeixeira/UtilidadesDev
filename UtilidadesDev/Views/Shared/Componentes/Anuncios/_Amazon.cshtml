@@ -1,0 +1,28 @@
+﻿@using UtilidadesDev.Util
+@using UtilidadesDev.ViewModels
+
+@if (!Configuracao.AmbienteDesenvolvimento)
+{
+    <div class="row">
+        <div class="col-12 text-center">
+            <a class="btn btn-outline-success" target="_blank" href="https://www.amazon.com.br/b?_encoding=UTF8&tag=meussitesutil-20&linkCode=ur2&linkId=9a6025ff2608d504c5d232daf7160e8a&camp=1789&creative=9325&node=16339926011">
+                Clique aqui e veja mais ofertas
+            </a>
+        </div>
+
+        <div class="col-12 text-center">
+            @foreach (var item in ListaAnuncios())
+            {
+                @Html.Raw(item);
+            }
+
+        </div>
+    </div>
+}
+
+@functions{
+    List<string> ListaAnuncios()
+    {
+        return new AnunciosSomenteLinkViewModel().ListaQuatroItensAmazon();
+    }
+}

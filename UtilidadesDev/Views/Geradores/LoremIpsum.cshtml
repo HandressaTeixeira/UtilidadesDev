@@ -1,0 +1,182 @@
+﻿@using UtilidadesDev.Util
+@model UtilidadesDev.ViewModels.LorenpsuViewModel
+
+@{
+    ViewData["Titulo"] = "Gerador LoremIpsum";
+}
+
+<div class="form-group row">
+    <h2 class="titulo">Gerador de LoremIpsum</h2>
+</div>
+
+<form id="formLorem" novalidate="novalidate" action="/GerarLoremipsum" method="get">
+
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p class="font-20">
+                Para gerar o seu loremipsum informe a quantidade de palavras, frases e paragrafos.
+            </p>
+        </div>
+    </div>
+    <div class="form-group row">
+
+        <div class="col-md-7">
+
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <label asp-for="MaxPalavras" class="font-20"></label>
+                </div>
+                <div class="col-md-2">
+                    <input asp-for="MaxPalavras" type="text" class="required form-control font-20" maxlength="3" onkeyup="formataInteiro(this, event);" />
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <div class="col-md-5">
+                    <label asp-for="MaxFrases" class="font-20"></label>
+                </div>
+                <div class="col-md-2">
+                    <input asp-for="MaxFrases" type="text" class="form-control required font-20" maxlength="3" onkeyup="formataInteiro(this, event);" />
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <div class="col-md-5">
+                    <label asp-for="NumParagrafos" class="font-20"></label>
+                </div>
+                <div class="col-md-2">
+                    <input asp-for="NumParagrafos" type="text" class="form-control required font-20" maxlength="3" onkeyup="formataInteiro(this, event);" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+
+                    <button id="btnGerar" class="btn btn-primary font-20" type="button">Gerar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <div id="divEditor" class="col-md-8">
+            <partial name="/Views/Shared/Componentes/_editor.cshtml" model="null" />
+        </div>
+    </div>
+
+</form>
+
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/Anuncios/_Amazon.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+<div class="form-group row">
+    <h2 class="titulo">O que é LoremIpsum?</h2>
+</div>
+
+<div class="form-group row">
+    <p class="font-20">
+        A expressão Lorem ipsum é um texto padrão em latim muito utilizado em sistemas para testes visuais
+        com textos e títulos ou para testar caixas de texto, de diálogo e campos antes de utilizar o conteúdo real.
+    </p>
+</div>
+
+<div class="form-group row">
+    <h2 class="titulo">Curiosidades sobre a origem do Lorem ipsum</h2>
+</div>
+
+<div class="form-group row">
+    <p class="font-20">
+        A expressão Lorem ipsum não é um texto qualquer. Richard McClintock, professor de latim na
+        Hampden-Sydney College, na Virgínia, pesquisou uma das palavras da passagem do texto lorem ipsum
+        na literatura clássica, "consectetur", descobriu que o trecho vem das seções 1.10.32 e 1.10.33 do
+        "De Finibus Bonorum et Malorum" (Os extremos do bem e do mal) escrito por Cícero em 45 a.C.
+        Esse livro versa sobre a teoria da ética, tendo sido muito consultado durante o período da
+        Renascença. A primeira linha, "Lorem ipsum dolor sit amet...", encontra-se na seção 1.10.32.
+    </p>
+    <p class="font-20">
+        <a href="https://pt.wikipedia.org/wiki/Lorem_ipsum" target="_blank">Fonte: wikipedia</a>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/_GeradoresDestaque.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        var quill = new Quill("#editor", {
+            theme: "snow",
+        });
+
+        $("#btnGerar").on("click", function () {
+
+            if ($("#MaxPalavras").val() == "" || $("#MaxFrases").val() == "" || $("#NumParagrafos").val() == "") {
+                toastr.error(
+                    "Preencha os campos para gerar Loremipsum.",
+                    "Atenção!"
+                );
+
+                return;
+            }
+            var model = {
+                MaxPalavras: $("#MaxPalavras").val(),
+                MaxFrases: $("#MaxFrases").val(),
+                NumParagrafos: $("#NumParagrafos").val()
+            };
+
+            $.post("/GerarLoremipsum", { model: model }, function (data) {
+                if (data.status == undefined) {
+                    $("#divEditor").html(data);
+
+                    new Quill("#editor", {
+                        theme: "snow",
+                    });
+                }
+                else
+                    toastr.error(
+                        "Ocorreu um erro ao gerar Loremipsum , tente novamente mais tarde.",
+                        "Atenção!"
+                    );
+
+            }).fail(function () {
+                toastr.error(
+                    "Ocorreu um erro, tente novamente mais tarde.",
+                    "Atenção!"
+                );
+            });
+        });
+    </script>
+
+}

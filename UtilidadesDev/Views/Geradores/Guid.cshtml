@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewData["Titulo"] = "Gerador Guid";
+}
+
+<div class="form-group row">
+    <h2 class="titulo">Gerador de Guid</h2>
+</div>
+
+<form id="formGuid" novalidate="novalidate" action="/GerarGuid" method="get">
+
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p class="font-20">
+                Informe o tamanho em pixels do seu QRCode de 1 a 10 e informe o texto desejado.
+                O texto pode conter letras, caracteres especiais e números. Caso tenha acentos eles serão retirados das palavras automaticamente
+                para que as informações do QRCode sejam geradas corretamente.
+            </p>
+        </div>
+    </div>
+    <div class="form-group row">
+
+        <div class="row">
+            <div class="col-md-12">
+                <label for="guid" class="font-20">Guid:</label>
+            </div>
+            <div class="col-md-6">
+                <input id="guid" name="guid" class="form-control font-20" readonly="readonly" value="@Model" />
+            </div>
+            <div class="col-md-1">
+                <button id="btnGerar" class="btn btn-primary font-20" type="button" onclick="Gerar()">Gerar</button>
+            </div>
+            <div class="col-md-2">
+                <button id="btnCopiar" class="btn btn-info font-20" type="button" onclick="Copiar()">Copiar <span class="mdi mdi-content-copy"></span></button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/Anuncios/_Amazon.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<div class="form-group row">
+    <h2 class="titulo">O que é Guid?</h2>
+</div>
+
+<div class="form-group row">
+    <p class="font-20">
+        É um identificador único universal (ou universally unique identifier - UUID)) de 128 bits usado para identificar informações
+        em sistemas de computação. O termo identificador único global (globally unique identifier - GUID) também é utilizado.
+    </p>
+    <p class="font-20">
+        Um UUID é um número de 16 octetos (128 bits).
+        Em sua forma canônica, um UUID é representado por 32 dígitos hexadecimais em caixa baixa, exibidos em cinco grupos separados por hifens, na forma 8-4-4-4-12 para um total de 36 caracteres (32 caracteres alfanuméricos e 4 hifens). Por exemplo:
+        123e4567-e89b-12d3-a456-426655440000
+
+        As primeiras três sequencias são interpretadas como números hexadecimais completos, enquanto as duas finais como uma sequência de bytes pura.
+    </p>
+    <p class="font-20">
+        Fonte: 
+        <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier" target="_blank">Wikipedia</a>, 
+        <a href="https://docs.microsoft.com/en-us/dotnet/api/system.guid?view=net-5.0" target="_blank">Estrutura Guid - Microsoft</a>, 
+        <a href="https://www.ietf.org/rfc/rfc4122.txt" target="_blank">RFC4122</a>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+
+<partial name="/Views/Shared/Componentes/_GeradoresDestaque.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script type="text/javascript">
+        function Gerar() {
+            document.getElementById("guid").value = uuid();
+        };
+
+        function uuid() {
+
+            function randomDigit() {
+
+                if (crypto && crypto.getRandomValues) {
+
+                    var rands = new Uint8Array(1);
+
+                    crypto.getRandomValues(rands);
+
+                    return (rands[0] % 16).toString(16);
+                } else {
+                    return ((Math.random() * 16) | 0).toString(16);
+                }
+            }
+
+            var crypto = window.crypto || window.msCrypto;
+            return 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, randomDigit);
+        };
+
+        function Copiar() {
+            $("#guid").select();
+            document.execCommand('copy');
+        };
+
+    </script>
+}

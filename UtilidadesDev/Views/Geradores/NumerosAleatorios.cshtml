@@ -1,0 +1,160 @@
+﻿@using UtilidadesDev.ViewModels
+@model NumerosAleatoriosViewModel
+
+@{
+    ViewData["Titulo"] = "Gerador de números aleatórios";
+}
+
+<div class="form-group row">
+    <h2 class="titulo">Gerador de números aleatórios</h2>
+</div>
+
+<form id="formNumerosAleatorios" asp-action="NumerosAleatorios" asp-controller="Geradores" novalidate="novalidate" method="post">
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p class="font-20">
+                Clique no botão Gerar para gerar um números aleatórios
+            </p>
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label asp-for="NumeroInicial"></label>
+            <input asp-for="NumeroInicial" class="form-control font-20" />
+        </div>
+        <div class="col-md-3">
+            <label asp-for="NumeroFinal"></label>
+            <input asp-for="NumeroFinal" class="form-control font-20" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label asp-for="QuantidadeCombinacoes"></label>
+            <input asp-for="QuantidadeCombinacoes" class="form-control font-20" />
+        </div>
+        <div class="col-md-3">
+            <label asp-for="QuantidadeNumerosNaCombinacao"></label>
+            <input asp-for="QuantidadeNumerosNaCombinacao" class="form-control font-20" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-12">
+            <button id="btnGerar" class="btn btn-primary font-20" type="button" onclick="Gerar();">Gerar</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label for="texto" class="font-20">Resultado:</label>
+        </div>
+    </div>
+    @if (Model?.ListaCombinacoes != null)
+    {
+
+        <div class="row">
+            @foreach (var item in Model.ListaCombinacoes)
+            {
+                var guid = Guid.NewGuid();
+
+
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input id="resultado@(guid)" name="texto" class="form-control font-20" readonly="readonly" value="@item" />
+
+                        <div class="input-group-append">
+                            <span id="btn@(guid)" class="input-group-text h-100" onclick="Copiar(this)"><i class="fa fa-copy"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    }
+</form>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/Anuncios/_Amazon.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+@*<div class="form-group row">
+        <h2 class="titulo">Lorenimpsum</h2>
+    </div>
+
+    <div class="form-group row">
+        <p class="font-20">
+            Lorenimpsum
+        </p>
+    </div>*@
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/_GeradoresDestaque.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        function Copiar(obj) {
+            $("#" + obj.id).parent().parent().find("input").select();
+            document.execCommand('copy');
+        };
+
+        function Gerar() {
+            if ($("form").valid()) {
+
+                if ($("#NumeroInicial").val() == "0" && $("#NumeroFinal").val() == "0")
+                    toastr.error(
+                        "Os campos Número Inicial e Número Final não podem ser iguais 0.",
+                        "Atenção!"
+                    );
+
+                else if ($("#NumeroInicial").val() > $("#NumeroFinal").val())
+                    toastr.error(
+                        "O campo Número Inicial não pode ser maior que Número Final.",
+                        "Atenção!"
+                    );
+                else if ($("#QuantidadeCombinacoes").val() == "0")
+                    toastr.error(
+                        "O campo Quantidade de Combinações não pode ser 0.",
+                        "Atenção!"
+                    );
+                else if ($("#QuantidadeNumerosNaCombinacao").val() == "0")
+                    toastr.error(
+                        "O campo Quantidade de Números em cada Combinação não pode ser 0.",
+                        "Atenção!"
+                    );
+                else
+                    $("form").submit();
+            }
+        }
+    </script>
+}

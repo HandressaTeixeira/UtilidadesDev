@@ -1,0 +1,5 @@
+﻿@model byte[]
+@if (Model != null)
+{
+    <img id="imgQRCode" style="border:solid" src="@String.Format("data:image/png;base64,{0}",Convert.ToBase64String(Model))" alt="Imagem" />
+}

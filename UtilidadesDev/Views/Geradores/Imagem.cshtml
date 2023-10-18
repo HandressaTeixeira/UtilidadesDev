@@ -1,0 +1,118 @@
+﻿@using UtilidadesDev.Util
+@model UtilidadesDev.ViewModels.ImagemViewModel
+
+@{
+    ViewData["Titulo"] = "Gerador de Imagem";
+}
+
+<div class="form-group row">
+    <h2 class="titulo">Gerador de Imagem</h2>
+</div>
+
+<form id="formImagem" asp-action="GerarImagem" asp-controller="Geradores" method="get" novalidate="novalidate"  >
+   
+    <input asp-for="tamCor1"/>
+    <input asp-for="tamCor2"/>
+    <input asp-for="brush1"/>
+    <input asp-for="brush2"/>
+    <input asp-for="imagem"/>
+    
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p class="font-20">
+                Clique no botão Gerar para criar imagens aleatórias em formato jpg.
+            </p>
+        </div>
+    </div>
+    <div class="form-group row">
+
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <button id="btnGerarQRCode" class="btn btn-primary font-20" type="button" onclick="window.location = '/GerarImagem';">Gerar</button>
+                    @if (Model != null)
+                    {
+                        @Html.ActionLink("Baixar Imagem", "BaixarImagem", "Geradores", 
+                            new { tamCor1 = Model.tamCor1, tamCor2 = Model.tamCor2, brush1 = Model.brush1, brush2 = Model.brush2 }, new { @class= "btn btn-primary font-20" })
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4">
+            <div class="form-group row">
+                <div id="divImagem" class="col-md-12">
+                    <br>
+                    @if (Model != null)
+                    {
+                        <img id="imagem" style="border:solid" src="@String.Format("data:image/jpg;base64,{0}",Convert.ToBase64String(Model.imagem))" alt="Imagem aleatória" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+@*<div class="form-group row">
+        <h2 class="titulo">O que é QRCode?</h2>
+    </div>
+
+    <div class="form-group row">
+        <p class="font-20">
+            Código QR é um código de barras, ou barrametrico, bidimensional, que pode ser facilmente escaneado
+            usando a maioria dos telefones celulares equipados com câmera. Esse código é convertido em texto, um endereço URI,
+            um número de telefone, uma localização georreferenciada, um e-mail, um contato ou um SMS.
+        </p>
+    </div>*@
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/Anuncios/_Amazon.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/_GeradoresDestaque.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        $("#btnBaixar").on("click", function () {
+            $.get("/Geradores/BaixarImagem", { bytes: $("#bytes").val() }, function (data) {
+                window.location = data;
+            });
+        });
+    </script>
+}

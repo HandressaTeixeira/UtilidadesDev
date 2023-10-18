@@ -1,0 +1,140 @@
+﻿@using UtilidadesDev.Util
+@model string
+
+@{
+    ViewData["Titulo"] = "Gerador de CPF";
+}
+
+<div class="form-group row">
+    <h2 class="titulo">Gerador de CPF</h2>
+</div>
+
+<form id="formCPF" novalidate="novalidate" action="/GerarCPF" method="get">
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p class="font-20">
+                Clique no botão Gerar para criar um CPF aleatório com e sem máscara.
+                Não nos responsabilizamos pelo uso indevido.
+            </p>
+
+        </div>
+    </div>
+    <div id="divResultado" class="col-md-12" style="display:none">
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="texto" class="font-20">Com mascara:</label>
+                <div class="input-group">
+                    <input id="cpfCMasc" name="texto" class="form-control font-20" maxlength="14" readonly="readonly" value="@Geral.ApenasNumeros(Model)" />
+
+                    <div class="input-group-append">
+                        <span id="btnCopiarCMasc" class="input-group-text h-100" onclick="Copiar(this)"><i class="fa fa-copy"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="texto" class="font-20">Sem mascara:</label>
+                <div class="input-group">
+                    <input id="cpfSMasc" name="texto" class="form-control font-20" maxlength="14" readonly="readonly" value="@Geral.ApenasNumeros(Model)" />
+
+                    <div class="input-group-append">
+                        <span id="btnCopiarSMasc" class="input-group-text h-100" onclick="Copiar(this)"><i class="fa fa-copy"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-12">
+
+            <button id="btnGerar" class="btn btn-primary font-20" type="button" onclick="Gerar();">Gerar</button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/Anuncios/_Amazon.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<div class="form-group row">
+    <h2 class="titulo">O que é CPF?</h2>
+</div>
+
+<div class="form-group row">
+    <p class="font-20">
+        O CPF (Cadastro de Pessoa Física) é um documento que serve para identificar os cidadãos.
+        Possui 11 dígitos e é único para cada pessoa.
+    </p>
+    <p class="font-20">
+        O CPF é gerado de forma aleatória, gratuita e para uso em testes de software e trabalhos acadêmicos
+        para facilitar a vida do desenvolvedor ou estudante.
+        Não nos responsabilizamos pelo uso indevido.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/_GeradoresDestaque.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        function Copiar(obj) {
+            $("#" + obj.id).parent().parent().find("input").select();
+            document.execCommand('copy');
+        };
+
+        function Gerar() {
+            $.post("/GerarCPF", {}, function (data) {
+                if (data.cpfCMasc) {
+                    $("#divResultado").show();
+
+                    $("#cpfCMasc").val(data.cpfCMasc);
+                    $("#cpfSMasc").val(data.cpfSMasc);
+                }
+                else {
+                    $("#divResultado").hide();
+
+                    toastr.error(
+                        "Ocorreu um erro ao gerar CPF, tente novamente mais tarde.",
+                        "Atenção!"
+                    );
+                }
+            }).fail(function () {
+                alert("Ocorreu um erro, tente novamente mais tarde.");
+            });
+        }
+    </script>
+}

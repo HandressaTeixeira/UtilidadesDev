@@ -1,0 +1,292 @@
+﻿@using UtilidadesDev.Util
+<!DOCTYPE html>
+<html dir="ltr" lang="en" style="background: #eeeeee;">
+<head>
+
+    @if (!Configuracao.AmbienteDesenvolvimento)
+    {
+    @*Anuncios Ezoic*@
+    @*<script>var ezoicId = 306621;</script>
+    <script type="text/javascript" src="//go.ezoic.net/ezoic/ezoic.js"></script>*@
+    }
+
+
+    @* Layout html gratuito obtido pelo site wrappixel *@
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Geradores para testes de desenvolvimento de sistemas">
+    <meta name="keywords" content="qrcode, gerar qrcode, gerar cpf, gerador, geradores">
+    <meta name="google-site-verification" content="3SIcWwb_Ns3zcbUOnPeZUbo3CkpWrnppvgZ-oiaS7tE" />
+
+    <title>@ViewData["Titulo"] - Utilidades do DEV</title>
+
+    <partial name="~/Views/Shared/Referencias/_Css.cshtml" />
+    <link href="~/css/MensagemCookies.css" rel="stylesheet" />
+
+    @if (!Configuracao.AmbienteDesenvolvimento)
+    {
+
+        @* Script que ajuda o navegador a encontrar o site *@
+        <script type="application/ld+json">
+            {
+              "type": "Geradores",
+              "name": "Geradores",
+              "description": "Gerador de QRCode, CPF e outros dados de teste para facilitar o desenvolvimento de sistemas.",
+              "provider": {
+                "type": "Gratuito",
+                "name": "Utilidades Dev"
+              }
+            }
+        </script>
+
+        @* Scripts se monitoramento *@
+
+        @*Google analytics*@
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HJYNZZXB4Q"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-HJYNZZXB4Q');
+        </script>
+
+        @*Hotjar*@
+        <script>
+            (function (h, o, t, j, a, r) {
+                h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+                h._hjSettings = { hjid: 2673291, hjsv: 6 };
+                a = o.getElementsByTagName('head')[0];
+                r = o.createElement('script'); r.async = 1;
+                r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+        </script>
+
+        @* Script de anuncios *@
+
+        @* AdSense *@
+        @*<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1068397147565627"
+                crossorigin="anonymous"></script>*@
+    }
+
+
+</head>
+<body>
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+
+    <div id="main-wrapper"
+         data-layout="vertical"
+         data-navbarbg="skin5"
+         data-sidebartype="full"
+         data-sidebar-position="absolute"
+         data-header-position="absolute"
+         data-boxed-layout="full">
+
+        <header class="topbar" data-navbarbg="skin5">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-header" data-logobg="skin5">
+                    <a class="navbar-brand" asp-controller="Inicio" asp-action="Index">
+                        @* Logo icon *@
+                        <b class="logo-icon ps-2">
+                            <i class="wi wi-sunset">
+                                <span class="logo-text ms-2">
+                                    Utilidades do DEV
+                                    @* dark Logo text *@
+                                    @*<img src="~/lib/assets/images/logo-text.png" alt="homepage" class="light-logo" />*@
+                                </span>
+                            </i>
+                            @*You can put here icon as well // <i class="wi wi-sunset"></i> //*@
+                            @* Dark Logo icon *@
+                            @*<img src="~/lib/assets/images/logo-icon.png" alt="homepage" class="light-logo" width="25" />*@
+                        </b>
+                        @*End Logo icon *@
+                        @* Logo text *@
+                        @* <span class="logo-text ms-2">*@
+                        @* dark Logo text *@
+                        @* <img src="~/lib/assets/images/logo-text.png" alt="homepage" class="light-logo" />
+                            </span>*@
+                        @*Logo icon
+                             <b class="logo-icon">
+                            You can put here icon as well // <i class="wi wi-sunset"></i> //
+                             Dark Logo icon
+                             <img src="~/lib/assets/images/logo-text.png" alt="homepage" class="light-logo" />
+                             </b>
+                            End Logo icon *@
+                    </a>
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none"
+                       href="javascript:void(0)">
+                        <i class="ti-menu ti-close"></i>
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                    <ul class="navbar-nav float-start me-auto">
+                        <li class="nav-item d-none d-lg-block">
+                            <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar">
+                                <i class="mdi mdi-menu font-24"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    @if (!Configuracao.AmbienteDesenvolvimento)
+                    {
+                    @* Script de anuncios *@
+
+                    @* yllix *@
+                    @*<script type="text/javascript" src="https://pppbr.com/bnr.php?section=utilidadesdev&pub=279296&format=468x60&ga=g"></script>
+                        <noscript><a href="https://yllix.com/publishers/279296" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a></noscript>*@
+
+                    @*revenuehits*@
+                    @*<script data-cfasync='false' type='text/javascript' src='//p440425.clksite.com/adServe/banners?tid=440425_862777_3&size=7'></script>*@
+
+                    }
+                </div>
+            </nav>
+        </header>
+
+        <aside class="left-sidebar" data-sidebarbg="skin5">
+            @* Sidebar scroll*@
+            <div class="scroll-sidebar">
+                @* Sidebar navigation*@
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav" class="pt-4">
+                        @*<li class="sidebar-item">
+        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+            <i class="mdi mdi-receipt"></i><span class="hide-menu">Geradores </span>
+        </a>
+        <ul aria-expanded="false" class="collapse first-level">*@
+                        <li class="sidebar-item">
+                            <a asp-controller="Geradores" asp-action="QRCode" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-qrcode"></i><span class="hide-menu">Gerador de QR Code</span>
+                            </a>
+                        </li>
+                        @*<li class="sidebar-item">
+            <a asp-controller="Geradores" asp-action="CPF" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                <i class="mdi mdi-account"></i><span class="hide-menu">Gerador de CPF</span>
+            </a>
+        </li>*@
+
+                        <li class="sidebar-item">
+                            <a asp-controller="Geradores" asp-action="Loremipsum" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-alphabetical"></i><span class="hide-menu">Gerador de LoremIpsum</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a asp-controller="Geradores" asp-action="Guid" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-numeric"></i><span class="hide-menu">Gerador de Guid</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a asp-controller="Geradores" asp-action="NumerosAleatorios" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-numeric"></i><span class="hide-menu">Gerador de Números Aleatórios</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a asp-controller="Geradores" asp-action="Senha" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-numeric"></i><span class="hide-menu">Gerador de Senha</span>
+                            </a>
+                        </li>
+                        @*</ul>
+        </li>*@
+                        <hr />
+                        <li class="sidebar-item">
+                            <a asp-controller="Inicio" asp-action="Privacidade" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                                <i class="mdi mdi-information-outline"></i><span class="hide-menu">Políticas de Privacidade</span>
+                            </a>
+                        </li>
+                        @* Exemplo de lista no menu
+            <li class="sidebar-item">
+            <a class="sidebar-link has-arrow waves-effect waves-dark"
+               href="javascript:void(0)"
+               aria-expanded="false">
+                <i class="mdi mdi-receipt"></i><span class="hide-menu">Forms </span>
+            </a>
+            <ul aria-expanded="false" class="collapse first-level">
+                <li class="sidebar-item">
+                    <a href="form-basic.html" class="sidebar-link">
+                        <i class="mdi mdi-note-outline"></i><span class="hide-menu"> Form Basic </span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="form-wizard.html" class="sidebar-link">
+                        <i class="mdi mdi-note-plus"></i><span class="hide-menu"> Form Wizard </span>
+                    </a>
+                </li>
+            </ul>
+        </li>*@
+                    </ul>
+                </nav>
+                @* End Sidebar navigation *@
+            </div>
+            @* End Sidebar scroll*@
+        </aside>
+
+        <div class="page-wrapper">
+
+
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title"></h4>
+                        <div class="ms-auto text-end">
+                            @*<nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a asp-controller="Inicio" asp-action="Index">Início</a></li>
+                                        @if (tela != null)
+                                        {
+
+                                            <li class="breadcrumb-item active" aria-current="page">
+                                                @tela
+                                            </li>
+                                        }
+                                    </ol>
+                                </nav>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container-fluid">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+            @* Mensagem de aviso sobre cookies e as politicas de privacidade *@
+            <div id="cookieConsentContainer" class="cookieConsentContainer" style="display:none">
+                <div class="cookieTitle">
+                    <a href="javascript:void(0);">
+                        Cookies
+                    </a>
+                </div><div class="cookieDesc">
+                    <p>
+                        Ao continuar o uso deste site, você aceita automaticamente o uso de cookies.
+                        <br />
+                        <a asp-controller="Inicio" asp-action="Privacidade">Políticas de Privacidade</a>
+                    </p>
+                </div><div class="cookieButton">
+                    <a id="aceitar-cookies" href="javascript:void(0);">
+                        OK
+                    </a>
+                </div>
+            </div>
+
+            <footer class="footer text-center">
+                &copy; 2021 - Utilidades do DEV - <a asp-area="" asp-controller="Inicio" asp-action="Privacidade">Políticas de Privacidade</a>
+            </footer>
+        </div>
+    </div>
+
+    <partial name="~/Views/Shared/Referencias/_Js.cshtml" />
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+</body>
+</html>

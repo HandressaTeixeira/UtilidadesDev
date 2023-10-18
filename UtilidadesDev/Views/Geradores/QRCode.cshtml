@@ -1,0 +1,173 @@
+﻿@using UtilidadesDev.Util
+@model UtilidadesDev.ViewModels.QRCodeViewModel
+
+@{
+    ViewData["Titulo"] = "Gerador QR Code";
+}
+
+<div class="form-group row">
+    <h2 class="titulo">Gerador de QR Code</h2>
+</div>
+
+<form id="formQR" novalidate="novalidate" action="/GerarQRCode" method="get">
+
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p class="font-20">
+                Informe o tamanho do seu QRCode de 1 a 10 e informe o texto desejado.
+                Caso tenha acentos no texto eles serão retirados automaticamente para que o QRCode
+                seja gerado corretamente.
+            </p>
+            <p class="font-20">
+                Em computadores, para <strong>salvar</strong> ou <strong>copiar</strong>
+                posicione o mouse sobre o QRCode, clique com o boão direito e em seguida clique em
+                <strong>Copiar imagem</strong> ou <strong>Salvar imagem como</strong>. No celular toque
+                e segure o QRCode e em seguida clique em <strong>Fazer download da imagem</strong>.
+            </p>
+        </div>
+    </div>
+    <div class="form-group row">
+
+        <div class="col-md-6">
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label asp-for="Tamanho" class="font-20"></label>
+                </div>
+                <div class="col-md-2">
+                    <input asp-for="Tamanho" type="text" class="required form-control font-20" maxlength="2" onkeyup="formataInteiro(this, event);" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label asp-for="Texto" class="font-20"></label>
+                </div>
+                <div class="col-md-12">
+                    <input asp-for="Texto" class="form-control required font-20" maxlength="100" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+
+                    <button id="btnGerarQRCode" class="btn btn-primary font-20" type="button">Gerar</button>
+
+                    @*@Html.ActionLink("Baixar Imagem", "BaixarQRCode", "Geradores",
+                        new { Tamanho = Model.Tamanho, Texto = Model.Texto },
+                        new { @class = "btn btn-primary font-20", @id = "btnBaixar", @style = "display:none" })*@
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div id="divImagem" class="col-md-12">
+                    <br>
+                    @if (Model != null)
+                    {
+                        <partial name="/Views/Shared/Componentes/_Imagem.cshtml" model="@Model.Imagem" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/Anuncios/_Amazon.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<div class="form-group row">
+    <h2 class="titulo">O que é QRCode?</h2>
+</div>
+
+<div class="form-group row">
+    <p class="font-20">
+        Código QR é um código de barras, ou barrametrico, bidimensional, que pode ser facilmente escaneado
+        usando a maioria dos telefones celulares equipados com câmera. Esse código é convertido em texto, endereço URI,
+        número de telefone, localização georreferenciada, e-mail, contato ou SMS.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+
+<partial name="/Views/Shared/Componentes/_GeradoresDestaque.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script type="text/javascript">
+
+        $("#btnGerarQRCode").on("click", function () {
+            //if ($("#formQR").valid()) {
+            var tamanhoInt = parseInt($("#Tamanho").val());
+            if ($("#Tamanho").val() == "")
+                toastr.error(
+                    "O campo Tamanho em pixels é obrigatório.",
+                    "Atenção!"
+                );
+            else if (tamanhoInt <= 0 || tamanhoInt > 10)
+                toastr.error(
+                    "O campo Tamanho em pixels deve ter números de 1 a 10.",
+                    "Atenção!"
+                );
+            else if ($("#Texto").val() == "")
+                toastr.error(
+                    "O campo Texto é obrigatório.",
+                    "Atenção!"
+                );
+            else {
+
+                var model = {
+                    Tamanho: $("#Tamanho").val(),
+                    Texto: $("#Texto").val()
+                };
+
+                $.post("/GerarQRCode", { model: model }, function (data) {
+
+                    if (data) {
+                        $("#divImagem").html(data);
+
+                        if ((/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase())))
+                            $('html, body').animate({ scrollTop: $("#btnGerarQRCode").offset().top }, 0);
+                    }
+                    else {
+                        toastr.error(
+                            "Ocorreu um erro ao gerar o QRCode.",
+                            "Atenção!"
+                        );
+                    }
+
+                }).fail(function () {
+                    toastr.error(
+                        "Ocorreu um erro, tente novamente mais tarde.",
+                        "Atenção!"
+                    );
+                });
+            }
+        });
+
+    </script>
+}

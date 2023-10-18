@@ -1,0 +1,132 @@
+﻿@using UtilidadesDev.Util
+
+@{
+    ViewData["Titulo"] = "Leitor de QR Code";
+}
+
+<div class="form-group row">
+    <h2 class="titulo">Leitor de QR Code</h2>
+</div>
+
+<form id="formQR" novalidate="novalidate" action="/LeitorQRCode" method="get">
+
+    <div class="form-group row">
+        <div class="col-md-12">
+            <p class="font-20">
+                Leia seu QRCode com a webcam ou camera do celular de forma gratuita.
+                Após a leitura confira o resultado da leitura abaixo da camera.
+            </p>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-12 text-center">
+            <div id="reader"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <br />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <h4 class="titulo">Resultado da Leitura</h4>
+    </div>
+
+
+    <div class="row">
+        <div id="divResultadoLeitura" class="col-6">
+            
+        </div>
+    </div>
+</form>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<partial name="/Views/Shared/Componentes/Anuncios/_Amazon.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+<div class="form-group row">
+    <h2 class="titulo">O que é QRCode?</h2>
+</div>
+
+<div class="form-group row">
+    <p class="font-20">
+        Código QR é um código de barras, ou barrametrico, bidimensional, que pode ser facilmente escaneado
+        usando a maioria dos telefones celulares equipados com câmera. Esse código é convertido em texto, um endereço URI,
+        um número de telefone, uma localização georreferenciada, um e-mail, um contato ou um SMS.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <br />
+    </div>
+</div>
+
+
+<partial name="/Views/Shared/Componentes/_GeradoresDestaque.cshtml" />
+
+<div class="row">
+    <div class="col-12">
+        <p></p>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/js/html5-qrcode.min.js"></script>
+
+    <script type="text/javascript">
+
+        IniciarCameraHtml5();
+
+        function IniciarCameraHtml5(dispositivo) {
+
+            var html5QrcodeScanner = new Html5QrcodeScanner("reader",
+                {
+                    fps: 10,
+                    qrbox: { width: 250, height: 250 },
+
+                    experimentalFeatures: {
+                        useBarCodeDetectorIfSupported: true
+                    },
+                    rememberLastUsedCamera: true,
+                    videoConstraints: dispositivo
+                }
+            );
+
+            html5QrcodeScanner.render(onScanSuccess);
+            jQuery("#reader__dashboard_section_swaplink").parent().hide();
+            jQuery(".modal-backdrop").remove();
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+
+            toastr.success(
+                decodedText,
+                "Lido com sucesso!"
+            );
+
+            AdicionarResultado(decodedText);
+        }
+
+        function AdicionarResultado(resultado) {
+            $("#divResultadoLeitura").append(`<p>${resultado}</p>`);
+        }
+    </script>
+}
